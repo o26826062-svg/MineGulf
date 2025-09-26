@@ -1,0 +1,975 @@
+
+<!doctype html>
+<html lang="fa">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+<title>Khalij Mine — نسخه موبایل</title>
+<style>
+:root{
+  --bg1:#071023; --bg2:#0b1220; --card:rgba(255,255,255,0.03);
+  --accent:#16a34a; --muted:#94a3b8; --glass:rgba(255,255,255,0.04);
+}
+*{box-sizing:border-box;font-family: Vazirmatn, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; -webkit-tap-highlight-color: transparent;}
+html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg1) 0%, var(--bg2) 100%); color:#e6eef8;}
+.container{max-width:900px;margin:0 auto;padding:14px;}
+.header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;}
+.brand{display:flex;align-items:center;gap:10px;}
+.logo{width:52px;height:52px;border-radius:10px;background:linear-gradient(45deg,#8b5cf6,#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:800}
+.title{font-size:18px;font-weight:800;line-height:1}
+.subtitle{font-size:12px;color:var(--muted)}
+.top-actions{display:flex;gap:8px;align-items:center}
+.btn{background:var(--accent);color:#042018;padding:10px 12px;border-radius:10px;text-decoration:none;cursor:pointer;border:none;font-weight:700}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:inherit;font-weight:600}
+.card{background:var(--card);padding:12px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6);overflow:hidden;margin-top:12px}
+.grid{display:grid;gap:10px}
+.grid.cols-2{grid-template-columns:repeat(2,1fr)}
+.kpi{display:flex;justify-content:space-between;align-items:center}
+.small{font-size:13px;color:var(--muted)}
+.avatar{width:40px;height:40px;border-radius:8px;display:inline-block;object-fit:cover}
+.table{width:100%;border-collapse:collapse;margin-top:8px}
+.table th,.table td{padding:8px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.03);font-size:13px}
+.footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px;padding-bottom:40px}
+
+/* Responsive: mobile-first adjustments */
+@media(min-width:720px){
+  .container{padding:20px}
+  .logo{width:64px;height:64px}
+  .title{font-size:22px}
+}
+
+/* Nav bottom for mobile */
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;background:linear-gradient(to top, rgba(0,0,0,0.45), transparent);display:flex;gap:6px;padding:8px 12px;justify-content:space-between;align-items:center}
+.nav-btn{flex:1;padding:10px;border-radius:10px;background:var(--glass);color:#e6eef8;border:1px solid rgba(255,255,255,0.03);font-weight:700;text-align:center}
+
+/* Inputs */
+.input{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;margin-top:8px}
+.notice{background:rgba(255,255,255,0.02);padding:8px;border-radius:8px;color:var(--muted);font-size:13px}
+
+/* modal */
+.modal{position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(2,6,23,0.6);display:flex;align-items:center;justify-content:center;padding:16px;z-index:999}
+.modal .box{width:100%;max-width:420px;background:var(--card);padding:14px;border-radius:12px}
+.small-muted{color:var(--muted);font-size:13px}
+.badge{display:inline-block;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.04);font-weight:700}
+
+/* touch targets */
+button, .btn, .nav-btn { -webkit-user-select: none; user-select: none; }
+
+</style>
+</head>
+<body>
+  <nav style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px">
+    <button class="btn ghost" onclick="showSection('home-hero')">خانه</button>
+    <a href='khalij_mine_login.html' class='btn ghost'>ورود</a>
+    <button class="btn ghost" onclick="showSection('section-rules')">قوانین</button>
+    <button class="btn ghost" onclick="showSection('section-adminlist')">تیم مدیریت</button>
+    <button class="btn ghost" onclick="showSection('section-store')">فروشگاه</button>
+    <button class="btn ghost" onclick="showSection('section-leader')">برترین‌ها</button>
+  </nav>
+
+<div class="container">
+  <header class="header">
+    <div class="brand">
+      <div class="logo">KM</div>
+      <div>
+        <div class="title">Khalij Mine</div>
+        <div class="subtitle">دنیای بلوک‌ها — آی‌پی: <span class="badge small-muted">play.khalijmine.example</span></div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button class="btn" id="btn-player-login">ورود پلیر</button>
+      <button class="btn ghost" id="btn-admin-login">ورود ادمین</button>
+    </div>
+  </header>
+
+  <!-- Hero / Event -->
+  <section class="card" id="home-hero" style="background:url('https://i.ibb.co/2K08p0z/minecraft-bg.jpg') center/cover no-repeat; color:white; text-shadow:1px 1px 4px #000;">
+    <div style="display:flex;gap:12px;align-items:center">
+      <img src="https://i.imgur.com/3ZQ3Qrs.png" alt="server" style="width:84px;height:84px;border-radius:10px;object-fit:cover" />
+      <div style="flex:1">
+        <div style="font-weight:800;font-size:16px">ایونت بعدی — پنجشنبهٔ بعدی ساعت ۱۸</div>
+        <div class="small-muted" id="event-desc" style="margin-top:6px">جایزه: رنک ویژه برای برنده</div>
+        <div style="margin-top:10px" class="kpi">
+          <div>
+            <div class="small">زمان تا شروع</div>
+            <div style="font-weight:800;font-size:18px" id="countdown">در حال محاسبه...</div>
+          </div>
+          <div style="text-align:center">
+            <div class="small">وضعیت سرور</div>
+            <div style="font-weight:800">آنلاین</div>
+            <div class="small">پلیرها: <span id="server-players">—</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Rules Section -->
+  <section class="card" id="section-rules" style="display:none" style="margin-top:16px">
+    <h2 style="font-weight:800;font-size:20px;margin-bottom:8px">قوانین سرور</h2>
+    <ul style="line-height:1.8;padding-right:20px;list-style-type:square">
+      <li>استفاده از چیت و هک ممنوع است.</li>
+      <li>بی‌احترامی به بازیکنان یا ادمین‌ها مجاز نیست.</li>
+      <li>هرگونه سوءاستفاده از باگ باعث بن می‌شود.</li>
+      <li>توهین در چت یا تبلیغات ممنوع است.</li>
+      <li>رعایت ادب و همکاری با سایر بازیکنان الزامی است.</li>
+    </ul>
+  </section>
+
+  <!-- Admins List Section -->
+  <section class="card" id="section-adminlist" style="display:none" style="margin-top:16px">
+    <h2 style="font-weight:800;font-size:20px;margin-bottom:8px">تیم مدیریت سرور</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:12px">
+      <div class="card" style="flex:1;min-width:150px;text-align:center">
+        <img src="https://minotar.net/avatar/SOL/80" style="border-radius:10px" />
+        <div style="font-weight:700;margin-top:6px">SOL</div>
+        <div class="small-muted">Owner</div>
+      </div>
+      <div class="card" style="flex:1;min-width:150px;text-align:center">
+        <img src="https://minotar.net/avatar/oktayparsa/80" style="border-radius:10px" />
+        <div style="font-weight:700;margin-top:6px">oktayparsa</div>
+        <div class="small-muted">Co-Owner</div>
+      </div>
+      <div class="card" style="flex:1;min-width:150px;text-align:center">
+        <img src="https://minotar.net/avatar/Amirhossein/80" style="border-radius:10px" />
+        <div style="font-weight:700;margin-top:6px">Amirhossein</div>
+        <div class="small-muted">Manager</div>
+      </div>
+      <div class="card" style="flex:1;min-width:150px;text-align:center">
+        <img src="https://minotar.net/avatar/hossein/80" style="border-radius:10px" />
+        <div style="font-weight:700;margin-top:6px">hossein</div>
+        <div class="small-muted">Builder</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Leaderboard -->
+  <section class="card" id="section-leader" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="font-weight:800">تایم‌پلی — برترین‌ها</div>
+      <div class="small-muted">مرتب‌شده بر اساس زمان بازی</div>
+    </div>
+    <div style="margin-top:8px">
+      <input class="input" id="search-player" placeholder="جستجو نام بازیکن..." />
+      <table class="table" id="leader-table">
+        <thead><tr><th>#</th><th>بازیکن</th><th>تایم</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Store -->
+  <section class="card" id="section-store" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="font-weight:800">فروشگاه (خرید با سکه)</div>
+      <div class="small-muted">سکه‌ها را از ادمین دریافت کنید</div>
+    </div>
+    <div style="margin-top:8px" id="products-list"></div>
+    <div style="margin-top:10px" class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:700">سبد خرید</div>
+        <div class="small-muted">برای خرید وارد شوید</div>
+      </div>
+      <div id="cart-contents" style="margin-top:8px" class="small-muted">هیچ چیزی در سبد نیست.</div>
+      <div style="margin-top:8px;display:flex;gap:8px">
+        <button class="btn" id="btn-checkout">پرداخت</button>
+        <button class="btn ghost" id="btn-clear-cart">پاک کردن</button>
+      </div>
+    </div>
+  </section>
+
+  
+  <!-- Player Profile -->
+  <section class="card" id="section-profile" style="display:none">
+    <div style="display:flex;align-items:center;gap:12px">
+      <img id="profile-skin" src="https://minotar.net/avatar/Steve/84" style="width:84px;height:84px;border-radius:10px;object-fit:cover" />
+      <div>
+        <div style="font-weight:800;font-size:18px" id="profile-username">—</div>
+        <div class="small-muted" id="profile-rank">—</div>
+        <div style="margin-top:8px">سکه: <span id="profile-coins">0</span></div>
+        <div>تایم‌پلی: <span id="profile-playtime">0h 0m</span></div>
+      </div>
+    </div>
+
+    <div style="margin-top:12px">
+      <div style="font-weight:700">اقدامات</div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="btn" id="btn-open-tickets">پشتیبانی / تیکت‌ها</button>
+        <button class="btn ghost" id="btn-logout">خروج</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Admin Panel (hidden unless admin) -->
+  <section class="card" id="section-admin" style="display:none" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="font-weight:800">پنل مدیریت</div>
+      <div class="small-muted">دسترسی ادمین</div>
+    </div>
+
+    
+    <div style="margin-top:10px">
+      <div style="font-weight:700">کوپن تخفیف (کد)</div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <input class="input" id="new-coupon-code" placeholder="کد کوپن (مثال: EVENT50)" />
+        <input class="input" id="new-coupon-value" placeholder="مقدار تخفیف (مثلا 50 برای 50 سکه)" />
+      </div>
+      <div style="margin-top:8px"><button class="btn" id="btn-create-coupon">ایجاد کوپن</button></div>
+      <div style="margin-top:8px"><div class="small-muted">کوپن‌ها را بازیکن هنگام پرداخت می‌تواند وارد کند.</div></div>
+      <div style="margin-top:8px"><table class="table" id="admin-coupons"><thead><tr><th>کد</th><th>مقدار</th></tr></thead><tbody></tbody></table></div>
+    </div>
+
+
+    <div style="margin-top:10px">
+      <div style="font-weight:700">افزودن پلیر</div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <input class="input" id="newplayer-username" placeholder="نام کاربری پلیر" />
+        <input class="input" id="newplayer-password" placeholder="رمز عبور پلیر" />
+      </div>
+      <div style="margin-top:8px"><button class="btn" id="btn-add-player">افزودن پلیر</button></div>
+    </div>
+
+    <div style="margin-top:10px">
+      <div style="font-weight:700">کاربران</div>
+      <table class="table" id="admin-users"><thead><tr><th>نام</th><th>سکه</th><th>رنک</th><th>روز باقی‌مانده</th></tr></thead><tbody></tbody></table>
+    </div>
+
+    <div style="margin-top:10px">
+      <div style="font-weight:700">تیکت‌ها</div>
+      <table class="table" id="admin-tickets"><thead><tr><th>id</th><th>کاربر</th><th>عنوان</th><th>وضعیت</th></tr></thead><tbody></tbody></table>
+    </div>
+
+
+    <div style="margin-top:10px">
+      <div style="font-weight:700">لاگ فعالیت ادمین</div>
+      <div style="margin-top:8px"><table class="table" id="admin-logs"><thead><tr><th>زمان</th><th>عمل</th></tr></thead><tbody></tbody></table></div>
+    </div>
+
+    <div style="margin-top:10px">
+      <div style="font-weight:700">سفارشات</div>
+      <table class="table" id="admin-orders"><thead><tr><th>id</th><th>کاربر</th><th>جمع</th></tr></thead><tbody></tbody></table>
+    </div>
+
+    <div style="margin-top:10px">
+      <div style="font-weight:700">بازیکنان (تایم‌پلی)</div>
+      <table class="table" id="admin-players"><thead><tr><th>نام</th><th>تایم</th><th>عملیات</th></tr></thead><tbody></tbody></table>
+    </div>
+  </section>
+
+  <footer class="footer">
+    © Khalij Mine — روبیکا: <span class="small-muted">@khalij_mine</span>
+  </footer>
+</div>
+
+<!-- Bottom nav for quick switching -->
+<div class="bottom-nav">
+  <div class="nav-btn" id="nav-home">خانه</div>
+  <div class="nav-btn" id="nav-lead">برترین‌ها</div>
+  <div class="nav-btn" id="nav-store">فروشگاه</div>
+  <div class="nav-btn" id="nav-admin">پنل</div>
+</div>
+
+<!-- Login Modal (removed) -->
+<div id="modal-login" style="display:none" class="modal" style="display:none">
+  <div class="box">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="font-weight:800">ورود</div>
+      <div><button class="btn ghost" id="close-login">بستن</button></div>
+    </div>
+    <div style="margin-top:8px" class="small-muted">نوع ورود را انتخاب کنید و سپس اطلاعات را وارد کنید.</div>
+
+    <div style="margin-top:10px">
+      <div style="display:flex;gap:8px">
+        <button class="btn" id="mode-player">ورود پلیر</button>
+        <button class="btn ghost" id="mode-admin">ورود ادمین</button>
+      </div>
+      <input class="input" id="login-username" placeholder="نام کاربری" />
+      <input class="input" id="login-password" placeholder="رمز عبور" type="password" />
+      <div style="margin-top:8px;display:flex;gap:8px">
+        <button class="btn" id="btn-do-login">ورود</button>
+        <button class="btn ghost" id="btn-cancel-login">انصراف</button>
+      </div>
+      <div style="margin-top:8px" class="small-muted">ثبت‌نام غیرفعال است — پلیرها را ادمین‌ها اضافه می‌کنند.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---------- Mobile-friendly single-file Khalij Mine ----------
+
+// Seed: only real admins included; no visible passwords shown anywhere.
+// For local demo the passwords are present in data but not displayed.
+const seed = {
+  users: [
+    {id:2,username:'SOL',email:'',password:'sol123',isAdmin:true,coins:9999,rank:'Owner',skin:'https://minotar.net/avatar/SOL/40'},
+    {id:3,username:'oktayparsa',email:'',password:'oktay123',isAdmin:true,coins:8000,rank:'Co Owner',skin:'https://minotar.net/avatar/oktayparsa/40'},
+    {id:4,username:'Amirhossein',email:'',password:'amir123',isAdmin:true,coins:5000,rank:'Manager',skin:'https://minotar.net/avatar/Amirhossein/40'},
+    {id:5,username:'hossein',email:'',password:'hossein123',isAdmin:true,coins:3000,rank:'Builder',skin:'https://minotar.net/avatar/hossein/40'}
+  ],
+  players: [
+    // initially empty — admins add players
+  ],
+  products: [
+    {id:'r1',title:'VIP',price:100,stock:100,desc:'رنک VIP — دسترسی ویژه'},
+    {id:'r2',title:'CIP',price:250,stock:50,desc:'رنک CIP — امکانات اختصاصی'},
+    {id:'r3',title:'Helper',price:50,stock:200,desc:'رنک Helper — کمک‌رسانی به پلیرها'}
+  ],
+  orders: []
+};
+
+const STORAGE_KEY = 'khalij_main_prod_v1';
+function loadDB(){
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if(!raw){ localStorage.setItem(STORAGE_KEY, JSON.stringify(seed)); return JSON.parse(JSON.stringify(seed)); }
+  return JSON.parse(raw);
+}
+function saveDB(db){ localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); }
+let DB = loadDB();
+let currentUser = null;
+
+// UI helpers
+const $ = id => document.getElementById(id);
+function showSection(id){
+  ['home-hero','section-leader','section-store','section-admin'].forEach(s=>{
+    const el = $(s);
+    if(!el) return;
+    el.style.display = (s===id ? 'block' : 'none');
+  });
+  if(id === 'section-admin' && (!currentUser || !currentUser.isAdmin)){
+    alert('برای مشاهده پنل مدیریت وارد ادمین شوید.');
+    showSection('home-hero');
+    return;
+  }
+}
+
+// Countdown to next Thursday 18:00 local
+function nextThursdayAtEighteen(){
+  const now = new Date();
+  // day 4 is Thursday (0=Sunday)
+  const dow = now.getDay(); // in JS: 0 Sunday .. 6 Saturday; Thursday is 4
+  let daysUntil = (4 - dow + 7) % 7;
+  if(daysUntil === 0){
+    // if today is Thursday, check time
+    const next = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0);
+    if(now >= next) daysUntil = 7;
+  }
+  const target = new Date(now.getFullYear(), now.getMonth(), now.getDate()+daysUntil, 18, 0, 0);
+  return target;
+}
+let eventTarget = nextThursdayAtEighteen();
+
+function startCountdown(){
+  const cd = $('countdown');
+  function tick(){
+    const now = new Date();
+    const diff = Math.max(0, eventTarget - now);
+    if(diff <= 0){
+      cd.textContent = 'ایونت در حال اجراست!';
+      return;
+    }
+    const days = Math.floor(diff / (1000*60*60*24));
+    const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+    const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
+    const secs = Math.floor((diff % (1000*60)) / 1000);
+    cd.textContent = `${days}روز ${hours.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+  }
+  tick(); setInterval(tick,1000);
+}
+
+// Render functions
+function fmtTime(mins){ const h = Math.floor(mins/60); const m = mins%60; return `${h}h ${m}m`; }
+
+function renderLeaderboard(filter=''){
+  const tbody = $('leader-table').querySelector('tbody');
+  tbody.innerHTML = '';
+  let list = DB.players.slice().sort((a,b)=> b.playtime_minutes - a.playtime_minutes);
+  if(filter) list = list.filter(p=> p.username.toLowerCase().includes(filter.toLowerCase()));
+  list.forEach((p,i)=>{
+    const user = DB.users.find(u=>u.id===p.user_id) || null;
+    const avatar = (user && user.skin) ? user.skin : 'https://minotar.net/avatar/Steve/40';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${i+1}</td><td style="display:flex;align-items:center;gap:8px"><img src="${avatar}" class="avatar" /><div><div style="font-weight:700">${p.username}</div><div class="small">${user?user.rank||user.username:'Guest'}</div></div></td><td>${fmtTime(p.playtime_minutes)}</td>`;
+    tbody.appendChild(tr);
+  });
+  if(list.length===0){
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td colspan="3" class="small-muted">هیچ بازیکنی موجود نیست.</td>`;
+    tbody.appendChild(tr);
+  }
+}
+
+function renderProducts(){
+  const wrap = $('products-list'); wrap.innerHTML = '';
+  DB.products.forEach(p=>{
+    const card = document.createElement('div'); card.className = 'card';
+    card.innerHTML = `<div style="font-weight:800">${p.title}</div><div class="small">${p.desc}</div><div style="margin-top:8px;display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800">${p.price} سکه</div><div><button class="btn buy-btn" data-id="${p.id}">خرید با سکه</button></div></div>`;
+    wrap.appendChild(card);
+  });
+  wrap.querySelectorAll('button.buy-btn').forEach(b=> b.onclick = ()=> addToCart(b.dataset.id) );
+}
+
+function renderCart(){
+  const cart = JSON.parse(localStorage.getItem('km_cart')||'[]');
+  const el = $('cart-contents'); if(cart.length===0){ el.innerHTML = 'هیچ چیزی در سبد نیست.'; return; }
+  let html = '<ul>';
+  cart.forEach(it=> html += `<li>${it.title} × ${it.qty} — ${ (it.price*it.qty) } سکه</li>`);
+  html += '</ul>';
+  const total = cart.reduce((s,i)=> s + i.price*i.qty,0);
+  html += `<div style="margin-top:8px;font-weight:700">جمع: ${total} سکه</div>`;
+  el.innerHTML = html;
+}
+
+function addToCart(pid){
+  const prod = DB.products.find(x=>x.id===pid); if(!prod) return alert('محصول پیدا نشد');
+  let cart = JSON.parse(localStorage.getItem('km_cart')||'[]');
+  const item = cart.find(i=>i.id===pid);
+  if(item) item.qty++; else cart.push({id:pid,qty:1,price:prod.price,title:prod.title});
+  localStorage.setItem('km_cart', JSON.stringify(cart));
+  renderCart();
+}
+
+// Checkout deducts coins
+function checkout(){
+  const cart = JSON.parse(localStorage.getItem('km_cart')||'[]'); if(cart.length===0) return alert('سبد خالی است');
+  if(!currentUser) return alert('برای خرید باید وارد شوید');
+  const total = cart.reduce((s,i)=> s + i.qty*i.price,0);
+  const user = DB.users.find(u=>u.id===currentUser.id);
+  if(!user) return alert('حساب کاربری پیدا نشد');
+  if(user.coins < total) return alert('سکه کافی نیست');
+  // create order
+  const id = DB.orders.reduce((m,o)=>Math.max(m,o.id||0),0)+1;
+  DB.orders.push({id,user_id:user.id,total,created_at:new Date().toISOString(),items:cart});
+  user.coins -= total;
+  saveDB(DB); localStorage.removeItem('km_cart');
+  renderCart(); renderAdmin(); alert('سفارش ثبت شد — #' + id);
+}
+
+// Admin functions
+function renderAdmin(){
+  const tbody = $('admin-users').querySelector('tbody'); tbody.innerHTML = '';
+  DB.users.forEach(u=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td style="display:flex;gap:8px;align-items:center"><img src="${u.skin||'https://minotar.net/avatar/Steve/40'}" class="avatar" /><div><div style="font-weight:700">${u.username}</div><div class="small-muted">${u.email||''}</div></div></td><td>${u.coins}</td><td>${u.rank||''}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  const ob = $('admin-orders').querySelector('tbody'); ob.innerHTML = '';
+  DB.orders.forEach(o=>{
+    const user = DB.users.find(u=>u.id===o.user_id);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${o.id}</td><td>${user?user.username:'-'}</td><td>${o.total} سکه</td>`;
+    ob.appendChild(tr);
+  });
+
+  const pb = $('admin-players').querySelector('tbody'); pb.innerHTML = '';
+  DB.players.forEach(p=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${p.username}</td><td>${p.playtime_minutes}</td><td><button class="btn" data-id="${p.id}">+60</button> <button class="btn ghost" data-id2="${p.id}">-60</button></td>`;
+    pb.appendChild(tr);
+  });
+  // bind player buttons
+  pb.querySelectorAll('button').forEach(b=>{
+    b.onclick = ()=>{
+      const id = parseInt(b.dataset.id||b.dataset.id2);
+      const delta = b.classList.contains('ghost')? -60 : 60;
+      const pl = DB.players.find(x=>x.id===id); if(!pl) return;
+      pl.playtime_minutes = Math.max(0, pl.playtime_minutes + delta);
+      saveDB(DB); renderLeaderboard(); renderAdmin();
+    };
+  });
+}
+
+// Admin: add player
+function addPlayerByAdmin(){
+  if(!currentUser || !currentUser.isAdmin) return alert('فقط ادمین‌ها می‌توانند پلیر اضافه کنند');
+  const uname = $('newplayer-username').value.trim();
+  const pwd = $('newplayer-password').value.trim();
+  if(!uname || !pwd) return alert('نام کاربری و رمز لازم است');
+  if(DB.users.find(u=>u.username===uname)) return alert('نام کاربری تکراری است');
+  const nid = DB.users.reduce((m,u)=>Math.max(m,u.id),0)+1;
+  const user = {id:nid,username:uname,email:'',password:pwd,isAdmin:false,coins:0,rank:'Player',skin:'https://minotar.net/avatar/'+encodeURIComponent(uname)+'/40'};
+  DB.users.push(user);
+  const pid = DB.players.reduce((m,p)=>Math.max(m,p.id),0)+1;
+  DB.players.push({id:pid,username:uname,playtime_minutes:0,user_id:nid});
+  saveDB(DB); renderAdmin(); renderLeaderboard(); alert('پلیر اضافه شد: ' + uname);
+}
+
+// Auth (login only)
+function doLogin(username,password,isAdminMode){
+  const user = DB.users.find(u=>u.username===username && u.password===password);
+  if(!user) return alert('نام کاربری یا رمز اشتباه');
+  if(isAdminMode && !user.isAdmin) return alert('این حساب دسترسی ادمین ندارد');
+  currentUser = user;
+  // hide login modal
+  $('modal-login').style.display = 'none';
+  // show admin panel if admin
+  if(user.isAdmin) showSection('section-admin');
+  else showSection('home-hero');
+  renderAdmin(); renderCart();
+  $('server-players').textContent = DB.players.length;
+  alert('ورود موفق: ' + user.username);
+}
+
+// Bindings
+$('nav-home').onclick = ()=> showSection('home-hero');
+$('nav-lead').onclick = ()=> { showSection('section-leader'); renderLeaderboard(); };
+$('nav-store').onclick = ()=> { showSection('section-store'); renderProducts(); renderCart(); };
+$('nav-admin').onclick = ()=> { if(!currentUser || !currentUser.isAdmin){ $('modal-login').style.display='block'; } else { showSection('section-admin'); renderAdmin(); } };
+
+$('btn-player-login').onclick = ()=> { $('modal-login').style.display='block'; modeSet(false); };
+$('btn-admin-login').onclick = ()=> { $('modal-login').style.display='block'; modeSet(true); };
+
+$('close-login').onclick = ()=> $('modal-login').style.display='none';
+$('btn-cancel-login').onclick = ()=> $('modal-login').style.display='none';
+
+let adminMode = false;
+function modeSet(isAdmin){
+  adminMode = !!isAdmin;
+  $('mode-player').classList.toggle('btn', !isAdmin);
+  $('mode-player').classList.toggle('btn ghost', isAdmin);
+  $('mode-admin').classList.toggle('btn', isAdmin);
+  $('mode-admin').classList.toggle('btn ghost', !isAdmin);
+}
+
+$('mode-player').onclick = ()=> modeSet(false);
+$('mode-admin').onclick = ()=> modeSet(true);
+
+$('btn-do-login').onclick = ()=> doLogin($('login-username').value.trim(), $('login-password').value.trim(), adminMode);
+
+$('btn-checkout').onclick = checkout;
+$('btn-clear-cart').onclick = ()=> { localStorage.removeItem('km_cart'); renderCart(); };
+
+$('btn-add-player').onclick = ()=> addPlayerByAdmin();
+
+$('search-player').oninput = (e)=> renderLeaderboard(e.target.value);
+
+// initial render
+startCountdown();
+renderLeaderboard();
+renderProducts();
+renderCart();
+renderAdmin();
+$('server-players').textContent = DB.players.length;
+
+
+// ---------- New Features: Profile, Tickets, Coupons, Admin Logs ----------
+
+// Utilities for logs, tickets, coupons storage within DB object
+if(!DB.tickets) DB.tickets = DB.tickets || [];
+if(!DB.coupons) DB.coupons = DB.coupons || [];
+if(!DB.adminLogs) DB.adminLogs = DB.adminLogs || [];
+
+// Admin log helper
+function pushAdminLog(action){
+  DB.adminLogs = DB.adminLogs || [];
+  DB.adminLogs.push({time:new Date().toISOString(), action});
+  saveDB(DB);
+  renderAdminLogs();
+}
+
+// Render admin logs
+function renderAdminLogs(){
+  const tb = $('admin-logs').querySelector('tbody'); if(!tb) return;
+  tb.innerHTML = '';
+  (DB.adminLogs||[]).slice().reverse().forEach(l=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${new Date(l.time).toLocaleString()}</td><td>${l.action}</td>`;
+    tb.appendChild(tr);
+  });
+}
+
+// Tickets: player creates, admin views and replies
+function openTicketModal(){ $('modal-ticket').style.display='block'; }
+function closeTicketModal(){ $('modal-ticket').style.display='none'; }
+$('btn-open-tickets').onclick = ()=> { if(!currentUser) return alert('ابتدا وارد شوید'); openTicketModal(); };
+
+$('close-ticket').onclick = ()=> closeTicketModal();
+$('btn-submit-ticket').onclick = ()=>{
+  const title = $('ticket-title').value.trim(); const body = $('ticket-body').value.trim();
+  if(!title || !body) return alert('عنوان و شرح لازم است');
+  const id = (DB.tickets || []).reduce((m,t)=>Math.max(m,t.id||0),0)+1;
+  DB.tickets.push({id, user_id: currentUser.id, title, body, status:'open', replies: [] , created_at: new Date().toISOString()});
+  saveDB(DB); closeTicketModal(); alert('تیکت ارسال شد'); renderAdminTickets(); pushAdminLog('تیکت جدید از '+currentUser.username+' — '+title);
+};
+
+// Render admin tickets
+function renderAdminTickets(){
+  const tb = $('admin-tickets').querySelector('tbody'); tb.innerHTML='';
+  (DB.tickets||[]).forEach(t=>{
+    const user = DB.users.find(u=>u.id===t.user_id);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${t.id}</td><td>${user?user.username:'-'}</td><td>${t.title}</td><td>${t.status}</td>`;
+    tr.onclick = ()=> openTicketDetail(t.id);
+    tb.appendChild(tr);
+  });
+}
+
+// Ticket detail modal for admin reply (reuse modal-ticket but in admin mode)
+function openTicketDetail(tid){
+  const t = (DB.tickets||[]).find(x=>x.id===tid);
+  if(!t) return alert('تیکت پیدا نشد');
+  const user = DB.users.find(u=>u.id===t.user_id);
+  // simple prompt for reply (mobile-friendly)
+  const reply = prompt('پاسخ خود را وارد کنید (خالی برای صرفاً بستن):');
+  if(reply === null) return; // cancelled
+  if(reply.trim().length){
+    t.replies.push({by:'admin', text:reply, time:new Date().toISOString()});
+    pushAdminLog('ادمین به تیکت #'+tid+' پاسخ داد');
+  }
+  // allow closing
+  if(confirm('آیا می‌خواهید تیکت را بسته کنید؟')){ t.status = 'closed'; pushAdminLog('تیکت #'+tid+' بسته شد'); }
+  saveDB(DB); renderAdminTickets();
+}
+
+// Coupons: create and apply
+$('btn-create-coupon').onclick = ()=>{
+  const code = $('new-coupon-code').value.trim();
+  const val = parseInt($('new-coupon-value').value.trim()||'0');
+  if(!code || !val) return alert('کد و مقدار لازم است');
+  DB.coupons = DB.coupons || [];
+  if(DB.coupons.find(c=>c.code===code)) return alert('کد تکراری است');
+  DB.coupons.push({code, value: val, created_at: new Date().toISOString()});
+  saveDB(DB); renderAdminCoupons(); pushAdminLog('کوپن ساخته شد: '+code+' — '+val+' سکه');
+};
+
+function renderAdminCoupons(){
+  const tb = $('admin-coupons').querySelector('tbody'); tb.innerHTML='';
+  (DB.coupons||[]).forEach(c=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${c.code}</td><td>${c.value} سکه</td>`;
+    tb.appendChild(tr);
+  });
+}
+
+// Apply coupon during checkout: prompt user to enter coupon code
+function promptApplyCoupon(){
+  const code = prompt('کد کوپن را وارد کنید:');
+  if(!code) return;
+  const cp = (DB.coupons||[]).find(c=>c.code.toLowerCase() === code.toLowerCase());
+  if(!cp) return alert('کوپن نامعتبر');
+  // save applied coupon in sessionStorage for current checkout
+  sessionStorage.setItem('km_applied_coupon', JSON.stringify(cp));
+  alert('کوپن اعمال شد: ' + cp.value + ' سکه تخفیف');
+}
+
+// Modify checkout to support coupon discount (wrap existing checkout)
+const originalCheckout = window.checkout;
+window.checkout = function(){
+  const cart = JSON.parse(localStorage.getItem('km_cart')||'[]'); if(cart.length===0) return alert('سبد خالی است');
+  if(!currentUser) return alert('برای خرید باید وارد شوید');
+  const total = cart.reduce((s,i)=> s + i.qty*i.price,0);
+  let discount = 0;
+  const cp = JSON.parse(sessionStorage.getItem('km_applied_coupon')||'null');
+  if(cp) discount = cp.value;
+  const final = Math.max(0, total - discount);
+  const user = DB.users.find(u=>u.id===currentUser.id);
+  if(!user) return alert('حساب کاربری پیدا نشد');
+  if(user.coins < final) return alert('سکه کافی نیست پس از اعمال کوپن (جمع: '+final+' سکه)');
+  const id = DB.orders.reduce((m,o)=>Math.max(m,o.id||0),0)+1;
+  DB.orders.push({id,user_id:user.id,total:final,created_at:new Date().toISOString(),items:cart,coupon: cp?cp.code:null,discount:discount});
+  user.coins -= final;
+  saveDB(DB); localStorage.removeItem('km_cart'); sessionStorage.removeItem('km_applied_coupon');
+  renderCart(); renderAdmin(); renderAdminOrders(); pushAdminLog('خرید توسط '+user.username+' — '+final+' سکه (کوپن: '+(cp?cp.code:'ندارد')+')');
+  alert('سفارش ثبت شد — #' + id);
+};
+
+// Render admin orders (separate function for re-rendering)
+function renderAdminOrders(){
+  const ob = $('admin-orders').querySelector('tbody'); if(!ob) return;
+  ob.innerHTML = '';
+  (DB.orders||[]).forEach(o=>{
+    const user = DB.users.find(u=>u.id===o.user_id);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${o.id}</td><td>${user?user.username:'-'}</td><td>${o.total} سکه</td>`;
+    ob.appendChild(tr);
+  });
+}
+
+// Render admin tickets initially
+function renderAdminTickets(){ /* placeholder overwritten earlier */ }
+renderAdminTickets = renderAdminTickets; // keep reference
+
+// Show profile after login
+function showProfile(){
+  if(!currentUser) return;
+  $('section-profile').style.display = 'block';
+  $('section-store').style.display = 'none';
+  $('section-leader').style.display = 'none';
+  $('section-admin').style.display = 'none';
+  $('profile-username').textContent = currentUser.username;
+  $('profile-rank').textContent = currentUser.rank || '';
+  $('profile-coins').textContent = currentUser.coins || 0;
+  const player = DB.players.find(p=>p.user_id === currentUser.id);
+  $('profile-playtime').textContent = player ? fmtTime(player.playtime_minutes) : '0h 0m';
+  $('profile-skin').src = currentUser.skin || 'https://minotar.net/avatar/Steve/84';
+}
+
+// Logout
+$('btn-logout').onclick = ()=> { currentUser=null; alert('خروج انجام شد'); showSection('home-hero'); };
+
+// Hook coupon apply button: add to store UI - create a small button to enter coupon
+const couponBtnHtml = '<button class="btn ghost" id="btn-apply-coupon" style="margin-top:8px">اعمال کوپن</button>';
+const productsParent = document.getElementById('products-list');
+if(productsParent) productsParent.insertAdjacentHTML('afterend', couponBtnHtml);
+document.addEventListener('click', function(e){ if(e.target && e.target.id==='btn-apply-coupon') promptApplyCoupon(); });
+
+// Render admin logs and coupons
+function renderAdminCouponsAndLogs(){
+  renderAdminCoupons();
+  renderAdminLogs();
+  renderAdminOrders();
+  renderAdminTickets();
+}
+renderAdminCouponsAndLogs();
+
+// Ensure admin logs render on load
+renderAdminLogs();
+
+// Also, when admin adds a player, log the action (wrap addPlayerByAdmin)
+const origAddPlayer = window.addPlayerByAdmin;
+window.addPlayerByAdmin = function(){
+  origAddPlayer();
+  if(currentUser) pushAdminLog('ادمین '+currentUser.username+' پلیر جدید اضافه کرد');
+};
+
+// Wrap coin giving: when admin gives coins (we used buttons with handlers that call saveDB and renderAdmin)
+// We'll attach a delegation handler on admin-users table to log coin changes
+document.getElementById('admin-users').addEventListener('click', function(e){
+  if(e.target && e.target.classList.contains('give-coins')){
+    const id = parseInt(e.target.dataset.id);
+    const user = DB.users.find(u=>u.id===id);
+    if(user){ pushAdminLog('ادمین '+currentUser.username+' به '+user.username+' 100 سکه اضافه کرد'); }
+  }
+  if(e.target && e.target.classList.contains('take-coins')){
+    const id = parseInt(e.target.dataset.id2);
+    const user = DB.users.find(u=>u.id===id);
+    if(user){ pushAdminLog('ادمین '+currentUser.username+' از '+user.username+' 100 سکه کم کرد'); }
+  }
+});
+
+// Utility renderers used above
+function renderAdminOrders(){ renderAdminOrders = renderAdminOrders; } // noop to avoid errors if called before definition
+function renderAdminTickets(){ /* defined earlier */ }
+function renderAdminCoupons(){ /* defined earlier */ }
+function renderAdminLogs(){ /* defined earlier */ }
+
+
+
+// New login page handler
+$('btn-login2').onclick = ()=>{
+  const u=$('login-username2').value.trim();
+  const p=$('login-password2').value.trim();
+  const user = DB.users.find(x=>x.username===u && x.password===p);
+  if(!user) return alert('نام کاربری یا رمز اشتباه');
+  currentUser = user;
+  saveDB(DB);
+  if(user.role==='admin') showSection('section-admin');
+  else showProfile();
+  alert('ورود موفقیت‌آمیز بود');
+};
+
+
+// Single Page Navigation
+function showOnly(sectionId){
+  const sections = document.querySelectorAll('section.card');
+  sections.forEach(sec=> sec.style.display='none');
+  const target = document.getElementById(sectionId);
+  if(target) target.style.display='block';
+}
+
+// Override nav buttons to use showOnly
+document.querySelectorAll('nav button, nav a.btn').forEach(btn=>{
+  const txt = btn.textContent.trim();
+  if(txt==='خانه') btn.onclick=()=>showOnly('home-hero');
+  if(txt==='قوانین') btn.onclick=()=>showOnly('section-rules');
+  if(txt==='تیم مدیریت') btn.onclick=()=>showOnly('section-adminlist');
+  if(txt==='فروشگاه') btn.onclick=()=>showOnly('section-store');
+  if(txt==='برترین‌ها') btn.onclick=()=>showOnly('section-leader');
+});
+
+
+// ---------- Rank system: monthly ranks, single active rank ----------
+function rankExpiryDateFromNow(days=30){
+  const now = new Date();
+  return new Date(now.getTime() + days*24*60*60*1000).toISOString();
+}
+function rankDaysRemaining(user){
+  if(!user || !user.rank || !user.rank_expiry) return 0;
+  const now = new Date();
+  const exp = new Date(user.rank_expiry);
+  const diff = exp - now;
+  if(diff <= 0) return 0;
+  return Math.ceil(diff / (1000*60*60*24));
+}
+function hasActiveRank(user){
+  return rankDaysRemaining(user) > 0;
+}
+
+// Override addToCart to handle rank products specially
+const origAddToCart = window.addToCart;
+window.addToCart = function(pid){
+  const prod = DB.products.find(x=>x.id===pid);
+  if(!prod) return alert('محصول پیدا نشد');
+  // if product id starts with 'r' treat as rank purchase (instant buy)
+  if(pid.startsWith('r')){
+    if(!currentUser) return alert('برای خرید باید وارد شوی');
+    // check if user already has active rank
+    if(hasActiveRank(currentUser)){
+      return alert('شما هم‌اکنون یک رنک فعال دارید. تا پایان مدت فعلی نمی‌توانید رنک جدید بخرید.');
+    }
+    // confirm purchase
+    if(!confirm('آیا مایلید رنک ' + prod.title + ' را به قیمت ' + prod.price + ' سکه خریداری کنید؟')) return;
+    const user = DB.users.find(u=>u.id===currentUser.id);
+    if(!user) return alert('حساب یافت نشد');
+    if(user.coins < prod.price) return alert('سکه کافی نیست');
+    user.coins -= prod.price;
+    user.rank = prod.title;
+    user.rank_expiry = rankExpiryDateFromNow(30); // 30 days
+    // record order
+    const oid = DB.orders.reduce((m,o)=>Math.max(m,o.id||0),0)+1;
+    DB.orders.push({id:oid,user_id:user.id,total:prod.price,created_at:new Date().toISOString(),items:[{id:prod.id,qty:1,price:prod.price}],coupon:null,discount:0});
+    saveDB(DB);
+    renderCart(); renderAdmin(); renderProducts(); renderProfileIfVisible();
+    alert('خرید موفق. رنک شما فعال شد تا ' + new Date(user.rank_expiry).toLocaleDateString());
+    // log admin-like action (but user bought)
+    (DB.adminLogs = DB.adminLogs || []).push({time:new Date().toISOString(), action:'خرید رنک '+prod.title+' توسط '+user.username});
+    saveDB(DB);
+    return;
+  }
+  // non-rank products -> original behaviour (cart)
+  return origAddToCart(pid);
+}
+
+// renderProducts: disable rank buy buttons if user has active rank
+const origRenderProducts = window.renderProducts;
+window.renderProducts = function(){
+  origRenderProducts();
+  // after rendering, update buttons state for rank products
+  document.querySelectorAll('#products-list button.buy-btn, #products-list button.btn').forEach(b=>{
+    const pid = b.dataset.id;
+    if(!pid) return;
+    if(pid.startsWith('r')){
+      if(!currentUser){
+        b.disabled = false; b.classList.remove('ghost'); // user can login then buy
+      } else if(hasActiveRank(currentUser)){
+        b.disabled = true; b.classList.add('ghost');
+        b.textContent = 'قبلاً رنک دارید';
+      } else {
+        b.disabled = false; b.classList.remove('ghost');
+      }
+    }
+  });
+}
+
+// renderProfile to show rank and remaining days
+function renderProfileIfVisible(){
+  try{
+    if(!currentUser) return;
+    const p = currentUser;
+    // update profile UI if visible
+    const profileUsername = document.getElementById('profile-username');
+    if(profileUsername){
+      profileUsername.textContent = p.username;
+      document.getElementById('profile-coins').textContent = p.coins || 0;
+      const play = DB.players.find(x=>x.user_id===p.id);
+      document.getElementById('profile-playtime').textContent = play ? Math.floor((play.playtime_minutes||0)/60)+'h '+((play.playtime_minutes||0)%60)+'m' : '0h 0m';
+      document.getElementById('profile-skin').src = p.skin || 'https://minotar.net/avatar/Steve/84';
+      const rankEl = document.getElementById('profile-rank');
+      if(hasActiveRank(p)){
+        rankEl.textContent = p.rank + ' — ' + rankDaysRemaining(p) + ' روز باقی‌مانده';
+      } else {
+        rankEl.textContent = 'بدون رنک فعال';
+      }
+    }
+  }catch(e){ console.error(e); }
+}
+
+// update admin users table to show rank expiry days
+function renderAdmin(){ 
+  // replicate previous renderAdmin but add days column
+  const tbody = document.getElementById('admin-users').querySelector('tbody'); if(!tbody) return;
+  tbody.innerHTML='';
+  DB.users.forEach(u=>{
+    const days = hasActiveRank(u) ? rankDaysRemaining(u) + ' روز' : '-';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td style="display:flex;gap:8px;align-items:center"><img src="${u.skin||'https://minotar.net/avatar/Steve/40'}" class="avatar" /><div><div style="font-weight:700">${u.username}</div><div class="small-muted">${u.email||''}</div></div></td><td>${u.coins}</td><td>${u.rank||''}</td><td>${days}</td>`;
+    tbody.appendChild(tr);
+  });
+  // bind other parts like orders/players as before (keep existing behaviour)
+  // orders
+  const ob = document.getElementById('admin-orders').querySelector('tbody'); ob.innerHTML = '';
+  (DB.orders||[]).forEach(o=>{
+    const user = DB.users.find(uu=>uu.id===o.user_id);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${o.id}</td><td>${user?user.username:'-'}</td><td>${o.total} سکه</td>`;
+    ob.appendChild(tr);
+  });
+  // players
+  const pb = document.getElementById('admin-players').querySelector('tbody'); pb.innerHTML='';
+  (DB.players||[]).forEach(p=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${p.username}</td><td>${p.playtime_minutes}</td><td><button class="btn" data-id="${p.id}">+60</button> <button class="btn ghost" data-id2="${p.id}">-60</button></td>`;
+    pb.appendChild(tr);
+  });
+  // bind player buttons
+  pb.querySelectorAll('button').forEach(b=>{
+    b.onclick = ()=>{
+      const id = parseInt(b.dataset.id||b.dataset.id2);
+      const delta = b.classList.contains('ghost')? -60 : 60;
+      const pl = DB.players.find(x=>x.id===id); if(!pl) return;
+      pl.playtime_minutes = Math.max(0, pl.playtime_minutes + delta);
+      saveDB(DB); renderLeaderboard(); renderAdmin();
+    };
+  });
+  renderAdminCouponsAndLogs && renderAdminCouponsAndLogs();
+}
+
+// ensure profile reflects current state after login
+const origDoLogin = window.doLogin;
+window.doLogin = function(username,password,isAdminMode){
+  const res = origDoLogin(username,password,isAdminMode);
+  // after original login actions, ensure currentUser updated and UI refreshed
+  setTimeout(()=>{ renderProfileIfVisible(); renderProducts(); }, 200);
+  return res;
+}
+
+// Also override the standalone login handler if exists (btn-login2)
+try{
+  const b = document.getElementById('btn-login2');
+  if(b){
+    b.onclick = ()=>{
+      const u=document.getElementById('login-username2').value.trim();
+      const p=document.getElementById('login-password2').value.trim();
+      const user = DB.users.find(x=>x.username===u && x.password===p);
+      if(!user) return alert('نام کاربری یا رمز اشتباه');
+      currentUser = user; saveDB(DB);
+      alert('ورود موفق');
+      // go back to home and refresh UI
+      showOnly('home-hero');
+      renderProfileIfVisible(); renderProducts();
+    };
+  }
+}catch(e){ console.error(e); }
+
+</script>
+
+<!-- Ticket Modal -->
+<div id="modal-ticket" class="modal" style="display:none">
+  <div class="box">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="font-weight:800">پشتیبانی — ثبت تیکت</div>
+      <div><button class="btn ghost" id="close-ticket">بستن</button></div>
+    </div>
+    <div style="margin-top:8px">
+      <input class="input" id="ticket-title" placeholder="عنوان مشکل/درخواست" />
+      <textarea id="ticket-body" class="input" style="height:120px;margin-top:8px" placeholder="شرح مشکل..."></textarea>
+      <div style="margin-top:8px;display:flex;gap:8px">
+        <button class="btn" id="btn-submit-ticket">ارسال تیکت</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
